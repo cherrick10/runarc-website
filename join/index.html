@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Join on Arc</title>
+  <meta name="description" content="You've been invited to join Arc — the crew fitness app." />
+  <link rel="stylesheet" href="/style.css" />
+  <link rel="icon" href="/favicon.ico" />
+  <style>
+    body { display: flex; flex-direction: column; }
+    main { flex: 1; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">
+    <svg viewBox="0 0 28 28" fill="none" width="28" height="28">
+      <rect width="28" height="28" rx="8" fill="#1a9c8a"/>
+      <path d="M14 6L20 20H8L14 6Z" fill="white" opacity="0.9"/>
+      <rect x="10" y="17" width="8" height="2" rx="1" fill="white" opacity="0.6"/>
+    </svg>
+    Arc
+  </a>
+  <div class="nav-links">
+    <a href="https://apps.apple.com/app/id6771915576" class="btn btn-primary" style="padding:8px 18px;font-size:14px;">Download</a>
+  </div>
+</nav>
+
+<main class="join-page">
+  <div class="join-card">
+    <span class="join-emoji" id="join-emoji">💪</span>
+    <h1 id="join-title">You're invited to Arc</h1>
+    <p class="from" id="join-from"></p>
+
+    <div class="join-actions">
+      <a id="btn-open" href="#" class="btn btn-primary btn-large" style="justify-content:center;">
+        Open in Arc
+      </a>
+      <a href="https://apps.apple.com/app/id6771915576" class="btn btn-secondary btn-large" style="justify-content:center;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+        Download Arc (free)
+      </a>
+    </div>
+
+    <p class="join-note" id="join-note"></p>
+  </div>
+</main>
+
+<footer>
+  <a href="/" class="nav-logo" style="font-size:16px;">
+    <svg viewBox="0 0 28 28" fill="none" width="22" height="22">
+      <rect width="28" height="28" rx="8" fill="#1a9c8a"/>
+      <path d="M14 6L20 20H8L14 6Z" fill="white" opacity="0.9"/>
+      <rect x="10" y="17" width="8" height="2" rx="1" fill="white" opacity="0.6"/>
+    </svg>
+    Arc
+  </a>
+  <div class="footer-links">
+    <a href="/support">Support</a>
+    <a href="/privacy">Privacy</a>
+    <a href="/terms">Terms</a>
+  </div>
+  <p class="footer-copy">&copy; 2025 EmoryJoule. All rights reserved.</p>
+</footer>
+
+<script>
+(function () {
+  const params = new URLSearchParams(window.location.search);
+  const type      = params.get('type') || 'group';   // 'group' | 'circle'
+  const code      = params.get('code') || '';
+  const groupName = params.get('group') || '';
+  const emoji     = params.get('emoji') || '';
+  const from      = params.get('from') || '';
+  const name      = params.get('name') || '';          // circle: sender name
+  const colorIdx  = params.get('colorIdx') || '0';
+  const fromUserId = params.get('fromUserId') || '';
+
+  // Build display
+  const emojiEl  = document.getElementById('join-emoji');
+  const titleEl  = document.getElementById('join-title');
+  const fromEl   = document.getElementById('join-from');
+  const noteEl   = document.getElementById('join-note');
+  const openBtn  = document.getElementById('btn-open');
+
+  if (type === 'circle') {
+    const sender = name || from || 'Someone';
+    emojiEl.textContent = '🤝';
+    titleEl.textContent = sender + ' wants you in their circle';
+    fromEl.innerHTML = 'Join <strong>' + escHtml(sender) + '</strong>\'s fitness circle on Arc to share stats and stay accountable.';
+    noteEl.textContent = 'Already have Arc? Tap "Open in Arc" above. New here? Download the app first, then open this link again.';
+
+    // arc://circle-join?code=...&name=...&colorIdx=...&fromUserId=...
+    const deepLink = 'arc://circle-join' +
+      '?code=' + encodeURIComponent(code) +
+      '&name=' + encodeURIComponent(sender) +
+      '&colorIdx=' + encodeURIComponent(colorIdx) +
+      (fromUserId ? '&fromUserId=' + encodeURIComponent(fromUserId) : '');
+    openBtn.href = deepLink;
+
+  } else {
+    // group
+    const groupEmoji = emoji || '💪';
+    const displayName = groupName || 'a group';
+    const sender = from || 'Someone';
+    emojiEl.textContent = groupEmoji;
+    titleEl.textContent = 'Join ' + escHtml(displayName) + ' on Arc';
+    fromEl.innerHTML = '<strong>' + escHtml(sender) + '</strong> invited you to join this crew.';
+    noteEl.textContent = 'Already have Arc? Tap "Open in Arc" above. New here? Download the app first, then open this link again.';
+
+    // arc://group-join?code=...&group=...&emoji=...&from=...
+    const deepLink = 'arc://group-join' +
+      '?code=' + encodeURIComponent(code) +
+      '&group=' + encodeURIComponent(groupName) +
+      '&emoji=' + encodeURIComponent(emoji) +
+      '&from=' + encodeURIComponent(sender);
+    openBtn.href = deepLink;
+  }
+
+  // Attempt deep link on load (mobile only)
+  if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent) && openBtn.href !== '#') {
+    const target = openBtn.href;
+    setTimeout(function () { window.location.href = target; }, 400);
+    // If still here after 2.5s, the app isn't installed
+    setTimeout(function () {
+      if (!document.hidden) {
+        noteEl.textContent = "Looks like Arc isn't installed yet. Download it below, then open this link again.";
+      }
+    }, 2500);
+  }
+
+  function escHtml(str) {
+    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+})();
+</script>
+</body>
+</html>
