@@ -12,7 +12,6 @@
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
-
 html { scroll-behavior: smooth; }
 
 body {
@@ -26,12 +25,17 @@ body {
 a { color: var(--teal); text-decoration: none; }
 a:hover { color: var(--teal-light); }
 
+/* Force correct text color on button links regardless of anchor defaults */
+a.btn                              { color: inherit; }
+a.btn-primary, a.btn-primary:visited, a.btn-primary:hover { color: #fff; }
+a.btn-secondary, a.btn-secondary:visited { color: var(--text); }
+
 /* ── Nav ── */
 nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 20px 40px;
+  padding: 14px 40px;
   border-bottom: 1px solid var(--border);
   background: var(--bg);
   position: sticky;
@@ -39,26 +43,25 @@ nav {
   z-index: 100;
 }
 
-.nav-logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 20px;
-  font-weight: 700;
-  color: var(--text);
-  text-decoration: none;
+.nav-logo { display: flex; align-items: center; text-decoration: none; }
+.nav-logo img {
+  height: 36px;
+  width: auto;
+  background: #fff;
+  border-radius: 8px;
+  padding: 4px 10px;
+  display: block;
 }
 
-.nav-logo svg { width: 28px; height: 28px; }
-
 .nav-links { display: flex; gap: 32px; align-items: center; }
-.nav-links a { color: var(--muted); font-size: 14px; transition: color 0.2s; }
+.nav-links a { color: var(--muted); font-size: 14px; transition: color 0.2s; text-decoration: none; }
 .nav-links a:hover { color: var(--text); }
 
 /* ── Buttons ── */
 .btn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
   padding: 12px 24px;
   border-radius: var(--radius);
@@ -68,11 +71,12 @@ nav {
   border: none;
   transition: opacity 0.2s, transform 0.1s;
   text-decoration: none;
+  white-space: nowrap;
 }
 .btn:hover { opacity: 0.88; transform: translateY(-1px); }
 .btn:active { transform: translateY(0); }
 
-.btn-primary { background: var(--teal); color: #fff; }
+.btn-primary  { background: var(--teal);     color: #fff; }
 .btn-secondary { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
 .btn-large { padding: 16px 32px; font-size: 17px; border-radius: 16px; }
 
@@ -80,8 +84,18 @@ nav {
 .hero {
   max-width: 720px;
   margin: 0 auto;
-  padding: 80px 24px 60px;
+  padding: 72px 24px 56px;
   text-align: center;
+}
+
+.hero-logo {
+  height: 88px;
+  width: auto;
+  background: #fff;
+  border-radius: 18px;
+  padding: 8px 22px;
+  margin-bottom: 32px;
+  display: inline-block;
 }
 
 .hero-badge {
@@ -99,7 +113,7 @@ nav {
 }
 
 h1 {
-  font-size: clamp(36px, 6vw, 56px);
+  font-size: clamp(34px, 6vw, 54px);
   font-weight: 800;
   line-height: 1.1;
   letter-spacing: -0.02em;
@@ -133,13 +147,13 @@ h1 span { color: var(--teal); }
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 24px;
+  padding: 28px 24px 24px;
 }
 
 .feature-icon {
-  font-size: 28px;
-  margin-bottom: 12px;
   display: block;
+  margin-bottom: 16px;
+  color: var(--teal);
 }
 
 .feature-card h3 {
@@ -152,10 +166,10 @@ h1 span { color: var(--teal); }
 .feature-card p {
   font-size: 14px;
   color: var(--muted);
-  line-height: 1.6;
+  line-height: 1.65;
 }
 
-/* ── Content page (privacy, terms, support) ── */
+/* ── Content pages (support, privacy, terms) ── */
 .content-page {
   max-width: 720px;
   margin: 0 auto;
@@ -228,7 +242,13 @@ h1 span { color: var(--teal); }
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 24px;
+  padding: 28px 24px 24px;
+}
+
+.support-icon {
+  display: block;
+  color: var(--teal);
+  margin-bottom: 14px;
 }
 
 .support-card h3 {
@@ -238,11 +258,11 @@ h1 span { color: var(--teal); }
   color: var(--text);
 }
 
-.support-card p { color: var(--muted); font-size: 14px; margin-bottom: 16px; }
+.support-card p { color: var(--muted); font-size: 14px; margin-bottom: 20px; line-height: 1.6; }
 
 /* ── Join / invite page ── */
 .join-page {
-  min-height: 100vh;
+  min-height: calc(100vh - 120px);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -273,6 +293,7 @@ h1 span { color: var(--teal); }
   font-size: 15px;
   color: var(--muted);
   margin-bottom: 32px;
+  line-height: 1.6;
 }
 
 .join-card .from strong { color: var(--text); }
@@ -283,12 +304,13 @@ h1 span { color: var(--teal); }
   margin-top: 20px;
   font-size: 13px;
   color: var(--muted);
+  line-height: 1.5;
 }
 
 /* ── Footer ── */
 footer {
   border-top: 1px solid var(--border);
-  padding: 32px 40px;
+  padding: 28px 40px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -296,18 +318,31 @@ footer {
   gap: 16px;
 }
 
+.footer-logo { display: flex; align-items: center; text-decoration: none; }
+.footer-logo img {
+  height: 28px;
+  width: auto;
+  background: #fff;
+  border-radius: 6px;
+  padding: 2px 7px;
+  display: block;
+}
+
 .footer-links { display: flex; gap: 24px; flex-wrap: wrap; }
-.footer-links a { color: var(--muted); font-size: 13px; transition: color 0.2s; }
+.footer-links a { color: var(--muted); font-size: 13px; transition: color 0.2s; text-decoration: none; }
 .footer-links a:hover { color: var(--text); }
 
 .footer-copy { color: var(--muted); font-size: 13px; }
 
 /* ── Responsive ── */
 @media (max-width: 600px) {
-  nav { padding: 16px 20px; }
+  nav { padding: 12px 20px; }
   .nav-links { gap: 16px; }
+  .nav-links a[href="/support"], .nav-links a[href="/privacy"], .nav-links a[href="/terms"] { display: none; }
   footer { padding: 24px 20px; flex-direction: column; align-items: flex-start; }
-  .hero { padding: 60px 20px 40px; }
+  .hero { padding: 52px 20px 36px; }
+  .hero-logo { height: 68px; }
   .features { padding: 20px 20px 60px; }
   .content-page { padding: 40px 20px 60px; }
+  .join-card { padding: 32px 20px; }
 }
