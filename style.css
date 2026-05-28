@@ -74,11 +74,11 @@ nav {
 .btn-secondary:hover { background: var(--surface); }
 .btn-large { padding: 15px 30px; font-size: 16px; border-radius: 12px; }
 
-/* Override global `a` color for button links */
-a.btn-primary, a.btn-primary:visited, a.btn-primary:hover { color: #fff; }
-a.btn-outline, a.btn-outline:visited { color: var(--text); }
-a.btn-outline:hover { color: var(--teal); }
-a.btn-secondary, a.btn-secondary:visited, a.btn-secondary:hover { color: var(--text); }
+/* Override global `a` color for button links — !important beats mailto: browser defaults */
+a.btn-primary, a.btn-primary:visited, a.btn-primary:hover { color: #fff !important; }
+a.btn-outline, a.btn-outline:visited { color: var(--text) !important; }
+a.btn-outline:hover { color: var(--teal) !important; }
+a.btn-secondary, a.btn-secondary:visited, a.btn-secondary:hover { color: var(--text) !important; }
 
 /* ── Hero ── */
 .hero {
